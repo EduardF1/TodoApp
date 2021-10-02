@@ -1,6 +1,8 @@
 import React, {Component, createContext} from 'react';
 import axios from 'axios';
 
+import {API_BASE_URL} from '../constants/constants';
+
 export const TodoContext = createContext({});
 
 class TodoContextProvider extends Component {
@@ -15,17 +17,20 @@ class TodoContextProvider extends Component {
     //create
     createTodo(event, todoAddInfo) {
         event.preventDefault();
-        let todos = [...this.state.todos];
-        todoAddInfo ? todos.push(todoAddInfo) : console.error('Cannot add null or undefined todo object.');
-        this.setState({
-            todos: todos
-        });
-
+        axios.post(`${API_BASE_URL}/create`, todoAddInfo).then(response => {
+            let todos = [...this.state.todos];
+            todos.push(response.data.todo);
+            this.setState({
+                todos:todos
+            })
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     //read
     readTodo() {
-        axios.get('/api/todo/read')
+        axios.get(`${API_BASE_URL}/read`)
             .then(response => response.status === 200 ?
                 this.setState({todos: response.data}) :
                 console.error(`Something went wrong, error code: ${response.status}, error message: ${response.statusText}.`))

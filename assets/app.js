@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import TodoContextProvider, {TodoContext} from "./contexts/TodoContext";
-import TodoTable from "./components/TodoTable";
-import {CssBaseline} from "@material-ui/core";
+
+import {CssBaseline} from '@material-ui/core';
+
+import TodoContextProvider from './contexts/TodoContext';
+import TodoTable from './components/TodoTable';
 
 class App extends Component {
     render() {

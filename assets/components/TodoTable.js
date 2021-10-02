@@ -1,8 +1,7 @@
-import React, {Component, Fragment, useContext, useState} from 'react';
+import React, {Fragment, useContext, useState} from 'react';
 
 import {
     IconButton,
-    InputAdornment,
     Table,
     TableBody,
     TableCell,
@@ -13,13 +12,13 @@ import {
 
 import AddIcon from '@material-ui/icons/add';
 import EditIcon from '@material-ui/icons/edit';
-import DeleteIcon from "@material-ui/icons/delete";
-import DoneIcon from "@material-ui/icons/done";
-import CloseIcon from "@material-ui/icons/close";
+import DeleteIcon from '@material-ui/icons/delete';
+import DoneIcon from '@material-ui/icons/done';
+import CloseIcon from '@material-ui/icons/close';
 
 import {TodoContext} from '../contexts/TodoContext';
-import {TABLE_HEADERS} from "../constants/constants";
-import DeleteDialog from "./DeleteDialog";
+import {TABLE_HEADERS} from '../constants/constants';
+import DeleteDialog from './DeleteDialog';
 
 function TodoTable() {
     const context = useContext(TodoContext);
@@ -48,7 +47,7 @@ function TodoTable() {
                                     onChange={(event) => {
                                         setAddTodo(event.target.value)
                                     }}
-                                    label="New Task"
+                                    label='New Task'
                                     fullWidth={true}
                                 />
                             </TableCell>

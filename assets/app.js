@@ -5,6 +5,7 @@ import {CssBaseline} from '@material-ui/core';
 
 import TodoContextProvider from './contexts/TodoContext';
 import TodoTable from './components/TodoTable';
+import SnackbarComponent from "./components/Snackbar";
 
 class App extends Component {
     render() {
@@ -12,6 +13,7 @@ class App extends Component {
             <TodoContextProvider>
                 <CssBaseline>
                     <TodoTable/>
+                    <SnackbarComponent/>
                 </CssBaseline>
             </TodoContextProvider>
         );

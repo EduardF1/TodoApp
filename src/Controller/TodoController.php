@@ -9,7 +9,6 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/todo', name: 'api_todo')]
@@ -25,7 +24,7 @@ class TodoController extends AbstractController
     }
 
     #[Route('/read', name: 'api_todo_read', methods: 'GET')]
-    public function index(): JsonResponse
+    public function read(): JsonResponse
     {
         $todos = $this->todoRepository->findAll();
         $arrayOfTodos = [];
@@ -46,17 +45,12 @@ class TodoController extends AbstractController
             $this->entityManager->flush();
         } catch (Exception $exception) {
             return $this->json([
-                'message' => [
-                    'text' => [
-                        'Could not submit To-Do to the database.'
-                    ],
-                    'level' => 'error'
-                ]
+                'message' => ['text' => 'Could not reach database when attempting to create a To-Do.', 'level' => 'error']
             ]);
         }
         return $this->json([
             'todo' => $todo->toArray(),
-            'message' => ['text' => ['To-Do has been created !','Task : '.$content->name], 'level' => 'success']
+            'message' => ['text' => 'To-Do has been created!', 'level' => 'success']
         ]);
     }
 
@@ -67,12 +61,13 @@ class TodoController extends AbstractController
         $todo->setName($content->name);
         try {
             $this->entityManager->flush();
-        }catch (Exception $exception){
-            $this->json($exception);
+        } catch (Exception $exception) {
+            return $this->json([
+                'message' => ['text' => 'Could not reach database when attempting to update a To-Do.', 'level' => 'error']
+            ]);
         }
-
         return $this->json([
-           'update_message' => 'todo item with id '.$todo->getId().' has been updated.'
+            'message' => ['text' => 'To-Do successfully updated!', 'level' => 'success']
         ]);
     }
 
@@ -83,11 +78,12 @@ class TodoController extends AbstractController
             $this->entityManager->remove($todo);
             $this->entityManager->flush();
         } catch (Exception $exception) {
-            $this->json($exception);
+            return $this->json([
+                'message' => ['text' => 'Could not reach database when attempting to delete a To-Do.', 'level' => 'error']
+            ]);
         }
-
         return $this->json([
-            'delete_message' => 'todo item with id '.$todo->getId().' has been deleted.'
+            'message' => ['text' => 'To-Do has successfully been deleted!', 'level' => 'success']
         ]);
     }
 }

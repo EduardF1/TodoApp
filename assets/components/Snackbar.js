@@ -1,7 +1,7 @@
-import React, {Fragment} from "react";
-import {useContext} from "react";
-import {TodoContext} from "../contexts/TodoContext";
-import {Button, Snackbar, SnackbarContent} from "@material-ui/core";
+import React from 'react';
+import {useContext} from 'react';
+import {TodoContext} from '../contexts/TodoContext';
+import {Button, Snackbar, SnackbarContent} from '@material-ui/core';
 
 function checkLevel(level) {
     switch (level) {
@@ -19,18 +19,20 @@ function SnackbarComponent() {
     return (
         <Snackbar autoHideDuration={6000} open={context.message.text !== undefined}>
             {context.message.text && (
-                <SnackbarContent style={{backgroundColor: checkLevel(context.message.level)}} message={context.message.text.map((text, index) => (
-                    <Fragment key={index + ' ' + text}>
-                        <span>{text}</span><br/>
-                    </Fragment>
-                ))} action={[
-                    <Button color={'inherit'} onClick={() => {
-                        context.setMessage({})
-                    }} key={'dismiss'}>Dismiss</Button>
-                ]}/>
+                <SnackbarContent style={{backgroundColor: checkLevel(context.message.level)}}
+                                 message={context.message.text}
+                                 action={[
+                                     <Button
+                                         onClick={() => context.setMessage({})}
+                                         key='dismiss'
+                                         color='inherit'
+                                     >
+                                         dismiss
+                                     </Button>,
+                                 ]}/>
             )}
         </Snackbar>
-    )
+    );
 }
 
 export default SnackbarComponent;

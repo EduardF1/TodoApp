@@ -68,7 +68,7 @@ class TodoController extends AbstractController
         ]);
     }
 
-    #[Route('/delete', name: 'api_todo_delete', methods: 'DELETE')]
+    #[Route('/delete/{id}', name: 'api_todo_delete', methods: 'DELETE')]
     public function delete(Todo $todo)
     {
         try {
@@ -77,5 +77,9 @@ class TodoController extends AbstractController
         } catch (Exception $exception) {
             $this->json($exception);
         }
+
+        return $this->json([
+            'delete_message' => 'todo item with id '.$todo->getId().' has been deleted.'
+        ]);
     }
 }

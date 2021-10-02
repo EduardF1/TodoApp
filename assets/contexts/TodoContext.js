@@ -60,15 +60,24 @@ class TodoContextProvider extends Component {
 
     //delete
     deleteTodo(todoDeleteInfo) {
-        let todos = [...this.state.todos];
-        let todoToDelete = todos.find(todo => {
-            return todo.id === todoDeleteInfo.id;
-        });
+        axios.delete(`${API_BASE_URL}/delete/${todoDeleteInfo.id}`)
+            .then(response => {
+                if (response.status === 200) {
+                    let todos = [...this.state.todos];
+                    let todoToDelete = todos.find(todo => {
+                        return todo.id === todoDeleteInfo.id;
+                    });
 
-        todos.splice(todos.indexOf(todoToDelete), 1);
-        this.setState({
-            todos: todos,
-        })
+                    todos.splice(todos.indexOf(todoToDelete), 1);
+                    this.setState({
+                        todos: todos,
+                    })
+                } else {
+                    console.error(`Something went wrong, status code: ${response.status}, error: ${response.statusText}`);
+                }
+            }).catch(error => {
+            console.error(error);
+        });
     }
 
     render() {

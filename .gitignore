@@ -19,6 +19,9 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+#### config ####
+/.idea
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

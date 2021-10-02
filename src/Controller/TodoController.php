@@ -40,6 +40,7 @@ class TodoController extends AbstractController
         $content = json_decode($request->getContent());
         $todo = new Todo();
         $todo->setName($content->name);
+        $todo->setDescription($content->description);
         try {
             $this->entityManager->persist($todo);
             $this->entityManager->flush();

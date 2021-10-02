@@ -1,20 +1,28 @@
 import React, {Component, createContext} from 'react';
 
-export const TodoContext = createContext();
+export const TodoContext = createContext({});
 
 class TodoContextProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
             todos: [
-                {task: 'do something'}
+                {name: 'do something 1'},
+                {name: 'do something 2'},
+                {name: 'do something 3'},
+                {name: 'do something 4'}
             ],
         }
     }
 
     //create
-    createTodo(){
-
+    createTodo(event,todo){
+        event.preventDefault();
+        let todoList = [...this.state.todos];
+        todo ? todoList.push(todo): console.error('Cannot add null or undefined todo object.');
+        this.setState({
+            todos:todoList
+        })
     }
     //read
     readTodo(){

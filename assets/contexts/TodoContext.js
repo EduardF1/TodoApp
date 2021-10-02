@@ -21,7 +21,7 @@ class TodoContextProvider extends Component {
             let todos = [...this.state.todos];
             todos.push(response.data.todo);
             this.setState({
-                todos:todos
+                todos: todos
             })
         }).catch(error => {
             console.log(error);
@@ -39,14 +39,22 @@ class TodoContextProvider extends Component {
 
     //update
     updateTodo(todoEditInfo) {
-        let todos = [...this.state.todos];
-        let todoToUpdate = todos.find(todo => {
-            return todo.id === todoEditInfo.id
-        });
-
-        todoToUpdate.name = todoEditInfo.name;
-        this.setState({
-            todos: todos,
+        axios.put(`${API_BASE_URL}/update/${todoEditInfo.id}`, todoEditInfo)
+            .then(response => {
+                if (response.status === 200) {
+                    let todos = [...this.state.todos];
+                    let todo = todos.find(todo => {
+                        return todo.id === todoEditInfo.id;
+                    });
+                    todo.name = todoEditInfo.name;
+                    this.setState({
+                        todos: todos,
+                    })
+                } else {
+                    console.error(`Something went wrong, status code: ${response.status}, error: ${response.statusText}`);
+                }
+            }).catch(error => {
+            console.error(error);
         });
     }
 

@@ -7,46 +7,58 @@ class TodoContextProvider extends Component {
         super(props);
         this.state = {
             todos: [
-                {name: 'do something 1'},
-                {name: 'do something 2'},
-                {name: 'do something 3'},
-                {name: 'do something 4'}
+                {id: 1, name: 'do something 1'},
+                {id: 2, name: 'do something 2'},
+                {id: 3, name: 'do something 3'},
+                {id: 4, name: 'do something 4'}
             ],
         }
     }
 
     //create
-    createTodo(event,todo){
+    createTodo(event, todoAddInfo) {
         event.preventDefault();
-        let todoList = [...this.state.todos];
-        todo ? todoList.push(todo): console.error('Cannot add null or undefined todo object.');
+        let todos = [...this.state.todos];
+        todoAddInfo ? todos.push(todoAddInfo) : console.error('Cannot add null or undefined todo object.');
         this.setState({
-            todos:todoList
-        })
+            todos: todos
+        });
+
     }
+
     //read
-    readTodo(){
+    readTodo() {
 
     }
+
     //update
-    updateTodo(){
+    updateTodo(todoEditInfo) {
+        let todos = [...this.state.todos];
+        let todoToUpdate = todos.find(todo => {
+           return todo.id === todoEditInfo.id
+        });
 
+        todoToUpdate.name = todoEditInfo.name;
+        this.setState({
+            todos: todos,
+        });
     }
+
     //delete
-    deleteTodo(){
+    deleteTodo() {
 
     }
 
     render() {
         return (
-           <TodoContext.Provider value={{
-               ...this.state,
-               createTodo: this.createTodo.bind(this),
-               updateTodo: this.updateTodo.bind(this),
-               deleteTodo: this.deleteTodo.bind(this)
-           }}>
-               {this.props.children}
-           </TodoContext.Provider>
+            <TodoContext.Provider value={{
+                ...this.state,
+                createTodo: this.createTodo.bind(this),
+                updateTodo: this.updateTodo.bind(this),
+                deleteTodo: this.deleteTodo.bind(this)
+            }}>
+                {this.props.children}
+            </TodoContext.Provider>
         );
     }
 }

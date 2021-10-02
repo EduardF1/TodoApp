@@ -1,24 +1,38 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {Component, Fragment, useContext, useState} from 'react';
 
-import {IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField} from '@material-ui/core';
+import {
+    IconButton,
+    InputAdornment,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    TextField
+} from '@material-ui/core';
+
 import AddIcon from '@material-ui/icons/add';
 import EditIcon from '@material-ui/icons/edit';
 import DeleteIcon from "@material-ui/icons/delete";
+import DoneIcon from "@material-ui/icons/done";
+import CloseIcon from "@material-ui/icons/close";
 
 import {TodoContext} from '../contexts/TodoContext';
-
+import {TABLE_HEADERS} from "../constants/constants";
 
 function TodoTable() {
     const context = useContext(TodoContext);
     const [addTodo, setAddTodo] = useState('');
+    const [editIsShown, setEditIsShown] = useState(false);
+    const [editTodo, setEditTodo] = useState('');
 
     return (
         <form onSubmit={(event) => context.createTodo(event, {name: addTodo})}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Task</TableCell>
-                        <TableCell align={'right'}>Actions</TableCell>
+                        <TableCell>{TABLE_HEADERS[0]}</TableCell>
+                        <TableCell align={'right'}>{TABLE_HEADERS[1]}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -41,9 +55,40 @@ function TodoTable() {
                     </TableRow>
                     {context.todos.slice().reverse().map((todo, index) => (
                         <TableRow key={'todo ' + index}>
-                            <TableCell>{todo.name}</TableCell>
+                            <TableCell>
+                                {editIsShown === todo.id ?
+                                    <TextField
+                                        value={editTodo}
+                                        onChange={(event) => {
+                                            setEditTodo(event.target.value);
+                                        }}
+                                        InputProps={{
+                                            endAdornment:
+                                                <Fragment>
+                                                    <IconButton onClick={() => {
+                                                        setEditIsShown(false)
+                                                    }}>
+                                                        <CloseIcon/>
+                                                    </IconButton>
+                                                    <IconButton onClick={() => {
+                                                        context.updateTodo({id: todo.id, name: editTodo});
+                                                        setEditIsShown(false);
+                                                    }}>
+                                                        <DoneIcon/>
+                                                    </IconButton>
+                                                </Fragment>
+                                        }}
+                                    />
+                                    : todo.name
+                                }
+                            </TableCell>
                             <TableCell align={'right'}>
-                                <IconButton>
+                                <IconButton
+                                    onClick={() => {
+                                        setEditIsShown(todo.id);
+                                        setEditTodo(todo.name)
+                                    }}
+                                >
                                     <EditIcon/>
                                 </IconButton>
                                 <IconButton>

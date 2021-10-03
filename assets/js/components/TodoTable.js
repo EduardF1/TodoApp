@@ -6,14 +6,18 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
+
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import React, {Fragment, useContext, useState} from 'react';
-import {TodoContext} from '../contexts/TodoContext';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import React, {Fragment, useContext, useState} from 'react';
+import {TodoContext} from '../contexts/TodoContext';
+
 import DeleteDialog from './DeleteDialog';
+import {TABLE_HEADERS} from "../constants/constants";
 
 
 function TodoTable() {
@@ -46,9 +50,9 @@ function TodoTable() {
                 {/*HEAD*/}
                 <TableHead>
                     <TableRow>
-                        <TableCell>Task</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell align="right">Actions</TableCell>
+                        <TableCell>{TABLE_HEADERS[0]}</TableCell>
+                        <TableCell>{TABLE_HEADERS[2]}</TableCell>
+                        <TableCell align="right">{TABLE_HEADERS[1]}</TableCell>
                     </TableRow>
                 </TableHead>
 

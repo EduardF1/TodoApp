@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Todo;
+use App\Form\TodoType;
 use App\Repository\TodoRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,15 +40,30 @@ class TodoController extends AbstractController
     public function create(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent());
+        $form = $this->createForm(TodoType::class);
+        $form->submit((array)$content);
+
+        if (!$form->isValid()) {
+            $errors = [];
+            foreach ($form->getErrors(true, true) as $error) {
+                $propertyName = $error->getOrigin()->getName();
+                $errors[$propertyName] = $error->getMessage();
+            }
+            return $this->json([
+                'message' => ['text' => join("\n", $errors), 'level' => 'error'],
+            ]);
+        }
+
         $todo = new Todo();
         $todo->setTask($content->task);
         $todo->setDescription($content->description);
+
         try {
             $this->entityManager->persist($todo);
             $this->entityManager->flush();
-        } catch (Exception $exception) {
+        } catch (UniqueConstraintViolationException $exception) {
             return $this->json([
-                'message' => ['text' => 'Could not reach database when attempting to create a To-Do.', 'level' => 'error']
+                'message' => ['text' => 'Task has to be unique!', 'level' => 'error']
             ]);
         }
         return $this->json([
@@ -59,9 +76,24 @@ class TodoController extends AbstractController
     public function update(Request $request, Todo $todo): JsonResponse
     {
         $content = json_decode($request->getContent());
+
+        $form = $this->createForm(TodoType::class);
+        $nonObject = (array)$content;
+        unset($nonObject['id']);
+        $form->submit($nonObject);
+        if (!$form->isValid()) {
+            $errors = [];
+            foreach ($form->getErrors(true, true) as $error) {
+                $propertyName = $error->getOrigin()->getName();
+                $errors[$propertyName] = $error->getMessage();
+            }
+            return $this->json([
+                'message' => ['text' => join("\n", $errors), 'level' => 'error'],
+            ]);
+        }
         if ($todo->getTask() === $content->task && $todo->getDescription() === $content->description) {
             return $this->json([
-                'message' => ['text' => 'There was no change to the To-Do. Neither the name or the description was changed.', 'level' => 'error']
+                'message' => ['text' => 'There was no change to the To-Do. Neither the task or the description was changed.', 'level' => 'error']
             ]);
         }
         $todo->setTask($content->task);
@@ -74,7 +106,7 @@ class TodoController extends AbstractController
             ]);
         }
         return $this->json([
-            'todo' => $todo->toArray(),
+            'todo'    => $todo->toArray(),
             'message' => ['text' => 'To-Do successfully updated!', 'level' => 'success']
         ]);
     }

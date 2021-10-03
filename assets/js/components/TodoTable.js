@@ -12,13 +12,13 @@ import AddIcon from '@material-ui/icons/Add';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {amber} from '@mui/material/colors';
 
 import React, {Fragment, useContext, useState} from 'react';
 import {TodoContext} from '../contexts/TodoContext';
 
 import DeleteDialog from './DeleteDialog';
-import {TABLE_HEADERS} from "../constants/constants";
-import {amber} from "@mui/material/colors";
+import {TABLE_HEADERS} from '../constants/constants';
 
 const useStyles = makeStyles(theme => ({
     thead: {
@@ -53,40 +53,40 @@ function TodoTable() {
 
     return (
         <Fragment>
-            <Table size="small">
+            <Table size='small'>
                 {/*HEAD*/}
                 <TableHead>
                     {/*ADD*/}
                     <TableRow>
                         <TableCell>
                             <form onSubmit={onCreateSubmit}>
-                                <TextField variant="outlined"
-                                           type="text"
-                                           size="small"
+                                <TextField variant='outlined'
+                                           type='text'
+                                           size='small'
                                            value={addTodoTask}
                                            onChange={(event) => {
                                                setAddTodoTask(event.target.value);
                                            }}
-                                           label="Task"
+                                           label='Task'
                                            fullWidth={true}/>
                             </form>
                         </TableCell>
                         <TableCell>
                             <form>
-                                <TextField variant="outlined"
-                                           size="small"
-                                           type="text"
+                                <TextField variant='outlined'
+                                           size='small'
+                                           type='text'
                                            value={addTodoDescription}
                                            onChange={(event) => {
                                                setAddTodoDescription(event.target.value);
                                            }}
-                                           label="Description"
+                                           label='Description'
                                            fullWidth={true}
                                            multiline={true}/>
                             </form>
                         </TableCell>
-                        <TableCell width={130} align="right">
-                            <IconButton color="primary" onClick={onCreateSubmit}>
+                        <TableCell width={130} align='right'>
+                            <IconButton color='primary' onClick={onCreateSubmit}>
                                 <AddIcon/>
                             </IconButton>
                         </TableCell>
@@ -94,7 +94,7 @@ function TodoTable() {
                     <TableRow className={classes.thead}>
                         <TableCell width={200}>{TABLE_HEADERS[0]}</TableCell>
                         <TableCell>{TABLE_HEADERS[2]}</TableCell>
-                        <TableCell align="right">{TABLE_HEADERS[1]}</TableCell>
+                        <TableCell align='right'>{TABLE_HEADERS[1]}</TableCell>
                     </TableRow>
                 </TableHead>
                 {/*BODY*/}
@@ -108,7 +108,7 @@ function TodoTable() {
                                 {editIsShown === todo.id ?
                                     <form onSubmit={onEditSubmit.bind(this, todo.id)}>
                                         <TextField
-                                            type="text"
+                                            type='text'
                                             fullWidth={true}
                                             autoFocus={true}
                                             value={editTodoTask}
@@ -125,7 +125,7 @@ function TodoTable() {
                             <TableCell>
                                 {editIsShown === todo.id ?
                                     <TextField
-                                        type="text"
+                                        type='text'
                                         fullWidth={true}
                                         value={editTodoDescription}
                                         onChange={(event) => setEditTodoDescription(event.target.value)}
@@ -136,7 +136,7 @@ function TodoTable() {
                                 }
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align='right'>
                                 {editIsShown === todo.id ?
                                     <Fragment>
                                         <IconButton onClick={onEditSubmit.bind(this, todo.id)}>
@@ -148,14 +148,14 @@ function TodoTable() {
                                     </Fragment>
                                     :
                                     <Fragment>
-                                        <IconButton color="primary" onClick={() => {
+                                        <IconButton color='primary' onClick={() => {
                                             setEditIsShown(todo.id);
                                             setEditTodoTask(todo.task);
                                             setEditTodoDescription(todo.description);
                                         }}>
                                             <EditIcon/>
                                         </IconButton>
-                                        <IconButton color="secondary" onClick={() => {
+                                        <IconButton color='secondary' onClick={() => {
                                             setDeleteConfirmationIsShown(true);
                                             setTodoToBeDeleted(todo);
                                         }}>

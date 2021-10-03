@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-// MUI COMPONENTS
+import {Link} from 'react-router-dom';
+
 import {
     AppBar,
     Toolbar,
     IconButton,
-    Link,
+    Typography,
     Box,
     Button,
     Drawer,
@@ -13,8 +14,9 @@ import {
     ListItemText,
     ListItemIcon, makeStyles
 } from '@material-ui/core';
-// MUI ICONS
-import {Menu as MenuIcon, List as ListIcon, Label as LabelIcon, Label} from '@material-ui/icons';
+
+import {Menu as MenuIcon, List as ListIcon, Label as LabelIcon} from '@material-ui/icons';
+import {APP_TITLE} from "../constants/constants";
 
 const useStyles = makeStyles(theme => ({
     menuIcon: {
@@ -22,7 +24,11 @@ const useStyles = makeStyles(theme => ({
     },
     list: {
         width:'200px'
-    }
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+    },
 }));
 const Navigation = () => {
     // styles
@@ -34,24 +40,26 @@ const Navigation = () => {
     };
 
     const drawerItems = [
-        {text:'TodoList', icon: <ListIcon/>},
-        {text: 'Tags', icon: <LabelIcon/>}
+        {text:'TodoList', icon: <ListIcon/>, link:'/todo-list'},
+        {text: 'Tags', icon: <LabelIcon/>, link: '/tag-list'}
     ];
     return (
         <AppBar position={'fixed'}>
             <Toolbar>
                 <IconButton  onClick={toggleDrawer} className={classes.menuIcon} edge={'start'}><MenuIcon/></IconButton>
-                <Link href="/" variant= {'h6'} color={'textPrimary'} underline={'none'}>TodoApp</Link>
+                <Typography variant= {'h6'} color={'textPrimary'}>{APP_TITLE}</Typography>
                 <Box flexGrow={1}/>
                 <Button size={'large'}>Login</Button>
             </Toolbar>
             <Drawer anchor={'left'} variant={'temporary'} onClose={toggleDrawer} open={drawerOpen}>
                 <List className={classes.list}>
                     {drawerItems.map(drawerItem => (
-                        <ListItem onClick={toggleDrawer} button key={drawerItem.text}>
-                            <ListItemIcon>{drawerItem.icon}</ListItemIcon>
-                            <ListItemText>{drawerItem.text}</ListItemText>
-                        </ListItem>
+                        <Link className={classes.link} to={drawerItem.link}  key={drawerItem.text}>
+                            <ListItem onClick={toggleDrawer} button>
+                                <ListItemIcon>{drawerItem.icon}</ListItemIcon>
+                                <ListItemText>{drawerItem.text}</ListItemText>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>

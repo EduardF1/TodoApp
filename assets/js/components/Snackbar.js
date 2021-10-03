@@ -4,6 +4,7 @@ import {useContext} from 'react';
 import {Button, Snackbar, SnackbarContent} from '@material-ui/core';
 
 import {TodoContext} from '../contexts/TodoContext';
+import {SNACKBAR_LABEL} from "../constants/constants";
 
 function checkLevel(level) {
     switch (level) {
@@ -29,7 +30,7 @@ function SnackbarComponent() {
                                          key='dismiss'
                                          color='inherit'
                                      >
-                                         dismiss
+                                         {SNACKBAR_LABEL}
                                      </Button>,
                                  ]}/>
             )}

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import React, {useContext} from 'react';
 
 import {TodoContext} from '../contexts/TodoContext';
-import {DELETE_DIALOG_BUTTON_LABELS, DELETE_DIALOG_TITLE} from "../constants/constants";
+import {DELETE_DIALOG_BUTTON_LABELS, DELETE_DIALOG_TITLE} from '../constants/constants';
 
 function DeleteDialog(props) {
     const context = useContext(TodoContext);

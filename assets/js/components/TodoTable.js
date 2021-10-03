@@ -1,4 +1,4 @@
-import {Typography} from '@material-ui/core';
+import {makeStyles, Typography} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,6 +19,11 @@ import {TodoContext} from '../contexts/TodoContext';
 import DeleteDialog from './DeleteDialog';
 import {TABLE_HEADERS} from "../constants/constants";
 
+const useStyles = makeStyles(theme => ({
+    thead: {
+        backgroundColor: 'red'
+    }
+}));
 
 function TodoTable() {
     const context = useContext(TodoContext);
@@ -29,6 +34,8 @@ function TodoTable() {
     const [editTodoDescription, setEditTodoDescription] = useState('');
     const [deleteConfirmationIsShown, setDeleteConfirmationIsShown] = useState(false);
     const [todoToBeDeleted, setTodoToBeDeleted] = useState(null);
+
+    const classes = useStyles();
 
     const onCreateSubmit = (event) => {
         event.preventDefault();
@@ -48,7 +55,7 @@ function TodoTable() {
 
             <Table>
                 {/*HEAD*/}
-                <TableHead>
+                <TableHead className={classes.thead}>
                     <TableRow>
                         <TableCell>{TABLE_HEADERS[0]}</TableCell>
                         <TableCell>{TABLE_HEADERS[2]}</TableCell>

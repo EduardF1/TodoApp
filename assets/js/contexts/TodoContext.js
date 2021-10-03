@@ -62,7 +62,7 @@ class TodoContextProvider extends React.Component {
                     let todo = todos.find(todo => {
                         return todo.id === data.id;
                     });
-                    todo.name = response.data.todo.name;
+                    todo.task = response.data.todo.task;
                     todo.description = response.data.todo.description;
                     this.setState({
                         todos: todos,

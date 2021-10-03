@@ -18,24 +18,24 @@ import DeleteDialog from './DeleteDialog';
 
 function TodoTable() {
     const context = useContext(TodoContext);
-    const [addTodoName, setAddTodoName] = useState('');
+    const [addTodoTask, setAddTodoTask] = useState('');
     const [addTodoDescription, setAddTodoDescription] = useState('');
     const [editIsShown, setEditIsShown] = useState(false);
-    const [editTodoName, setEditTodoName] = useState('');
+    const [editTodoTask, setEditTodoTask] = useState('');
     const [editTodoDescription, setEditTodoDescription] = useState('');
     const [deleteConfirmationIsShown, setDeleteConfirmationIsShown] = useState(false);
     const [todoToBeDeleted, setTodoToBeDeleted] = useState(null);
 
     const onCreateSubmit = (event) => {
         event.preventDefault();
-        context.createTodo(event, {name: addTodoName, description: addTodoDescription});
-        setAddTodoName('');
+        context.createTodo(event, {task: addTodoTask, description: addTodoDescription});
+        setAddTodoTask('');
         setAddTodoDescription('');
     };
 
     const onEditSubmit = (todoId, event) => {
         event.preventDefault();
-        context.updateTodo({id: todoId, name: editTodoName, description: editTodoDescription});
+        context.updateTodo({id: todoId, task: editTodoTask, description: editTodoDescription});
         setEditIsShown(false);
     };
 
@@ -58,8 +58,8 @@ function TodoTable() {
                     <TableRow>
                         <TableCell>
                             <form onSubmit={onCreateSubmit}>
-                                <TextField type="text" value={addTodoName} onChange={(event) => {
-                                    setAddTodoName(event.target.value);
+                                <TextField type="text" value={addTodoTask} onChange={(event) => {
+                                    setAddTodoTask(event.target.value);
                                 }} label="New Task" fullWidth={true}/>
                             </form>
                         </TableCell>
@@ -91,14 +91,14 @@ function TodoTable() {
                                             type="text"
                                             fullWidth={true}
                                             autoFocus={true}
-                                            value={editTodoName}
+                                            value={editTodoTask}
                                             onChange={(event) => {
-                                                setEditTodoName(event.target.value);
+                                                setEditTodoTask(event.target.value);
                                             }}
                                         />
                                     </form>
                                     :
-                                    <Typography>{todo.name}</Typography>
+                                    <Typography>{todo.task}</Typography>
                                 }
                             </TableCell>
 
@@ -132,7 +132,7 @@ function TodoTable() {
                                     <Fragment>
                                         <IconButton onClick={() => {
                                             setEditIsShown(todo.id);
-                                            setEditTodoName(todo.name);
+                                            setEditTodoTask(todo.task);
                                             setEditTodoDescription(todo.description);
                                         }}>
                                             <EditIcon/>

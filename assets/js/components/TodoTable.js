@@ -21,7 +21,7 @@ import {TABLE_HEADERS} from "../constants/constants";
 
 const useStyles = makeStyles(theme => ({
     thead: {
-        backgroundColor: 'red'
+        backgroundColor: theme.palette.primary.main
     }
 }));
 
@@ -141,7 +141,7 @@ function TodoTable() {
                                     </Fragment>
                                     :
                                     <Fragment>
-                                        <IconButton onClick={() => {
+                                        <IconButton color={'primary'} onClick={() => {
                                             setEditIsShown(todo.id);
                                             setEditTodoTask(todo.task);
                                             setEditTodoDescription(todo.description);
@@ -149,7 +149,7 @@ function TodoTable() {
                                             <EditIcon/>
                                         </IconButton>
 
-                                        <IconButton onClick={() => {
+                                        <IconButton color={'secondary'} onClick={() => {
                                             setDeleteConfirmationIsShown(true);
                                             setTodoToBeDeleted(todo);
                                         }}>
